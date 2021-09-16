@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
+body,
+div,
+input,
+ul {
+  display: flex;
+  font-family: Arial, Helvetica, sans-serif;
+}
+body {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  background-image: url("background.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+#toDoList {
+  flex-direction: column;
+  align-items: center;
+  background: #b1b1b1;
+  height: 90vh;
+  width: 35vw;
+  border-radius: 30px;
+  box-shadow: 0px 15px 10px -5px #000000cc;
+}
+
+#addCommands {
+  justify-content: center;
+  width: 70%;
+}
+
+#interactiveList {
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 5px 5px 5px;
+  margin: 10px 0px 15px 0px;
+  background-color: #000000;
+  list-style-type: none;
+  width: 95%;
+  height: 100%;
+  border-radius: 30px;
+  overflow-y: auto;
+}
+
+h1 {
+  font-family: "Bungee", cursive;
+  font-size: 25px;
+  color: #4f4452;
+  margin: 0;
+}
+
+#addInput {
+  width: 100%;
+  border: none;
+  border-radius: 10px 0px 0px 10px;
+  background-color: #f2f6fa;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  margin: 10px 0px 0px 0px;
+  padding: 0;
+  background-color: #f2f6fa;
+  border-radius: 25px;
+}
+
+span {
+  margin: 5px 10px 5px 10px;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  background-color: #f2f6fa;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background-color: #b1b1b1;
+}
+
+#addButton {
+  border-radius: 0px 10px 10px 0px;
+}
+
+.deleteButton {
+  border-radius: 0px 25px 25px 0px;
+  height: 100%;
+}
+
+img {
+  height: 25px;
+  width: 25px;
+}
+
+.deleteImg {
+  height: 15px;
+  width: 15px;
+}
+
+.check {
+  appearance: none;
+  height: 100%;
+  padding: 0px 10.5px 0px 10.5px;
+  margin: 0;
+  border-radius: 25px 0px 0px 25px;
+  background-color: #ff0000;
+  cursor: pointer;
+}
+.check:hover {
+  background-color: #cc0000;
+}
+.check:checked {
+  background-color: #00c918;
+}
+
+.check:checked + span {
+  text-decoration: line-through;
+}
+
+@media (orientation: portrait) {
+  body {
+    background: none;
+  }
+  #toDoList {
+    height: 100vh;
+    width: 100vw;
+    border-radius: 0;
+  }
+}

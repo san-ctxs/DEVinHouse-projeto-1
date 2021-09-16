@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de afazeres</title>
+  <link rel="shortcut icon" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="toDoList">
+    <h1>AFAZERES</h1>
+    <div id="addCommands">
+
+      <input id="addInput" type="text">
+      <button id="addButton" onclick="addItem()"><img src="add.svg" alt="adicionar"></button>
+    </div>
+    <ul id="interactiveList"></ul>
+  </div>
+  <script>
+    // 1 - Criar função para salvar o estado da checkbox.
+    // 2 - 
+    const itemList = []
+    function addItem() {
+      newItem = document.querySelector('#addInput').value;
+      if (newItem.length == 0) {
+        alert('Sua caixa de texto está vazia.');
+      } else {
+        itemList.push('<li><input class="check" onclick="updateList()" type="checkbox"><span>' + newItem + '</span><button class="deleteButton" onclick="deleteItem()"><img class="deleteImg" src="delete.svg" alt="deletar"></button></li>');
+        document.querySelector('#interactiveList').innerHTML = itemList;
+        document.querySelector('#addInput').value = '';
+        document.querySelector('#addInput').focus();
+        updateList();
+      }
+      return;
+    }
+    function updateList() {
+      localStorage.setItem('savedList', JSON.stringify(itemList));
+    }
+    function loadList() {
+      loadedList = JSON.parse(localStorage.getItem('savedList'))
+      if (loadedList == null) {
+        return;
+      } else {
+        itemList.push(loadedList)
+        document.querySelector('#interactiveList').innerHTML = itemList;
+        return;
+      }
+    }
+    // Colocar função para deletar um item da lista.
+    function deleteItem() { }
+    window.onload = loadList();
+  </script>
+
+</body>
+
+</html>
