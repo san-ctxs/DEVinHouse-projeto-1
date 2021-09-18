@@ -15,44 +15,83 @@
     <h1>AFAZERES</h1>
     <div id="addCommands">
 
-      <input id="addInput" type="text">
+      <input id="addInput" type="text" placeholder="Digite um item para adicionar à lista e clique no botão.">
       <button id="addButton" onclick="addItem()"><img src="add.svg" alt="adicionar"></button>
     </div>
     <ul id="interactiveList"></ul>
   </div>
   <script>
-    // 1 - Criar função para salvar o estado da checkbox.
-    // 2 - 
-    const itemList = []
+    // CONCLUÍDO +Só falta arranjar um jeito de ler todos os itens que estão na tela e atualizá-los na itemList, savedList e na lista de checkbox.
+    // Ideia: Ao invés de adicionar o item na lista direto da função, só colocar ele na ul e depois jogar a ul na lista. (interactivelist.innerHTML) e então salvar como uma JSON. CONCLUÍDO
+    // +Deletar todos as checkbox do Local Storage e atualizar de novo todas as checkbox da tela.
+
+    // Função para adicionar o item, pega o valor dentro do input, formata e joga dentro da ul (#interactiveList), reseta o input e foca nele de novo.
     function addItem() {
-      newItem = document.querySelector('#addInput').value;
+      let newItem = document.querySelector('#addInput').value;
       if (newItem.length == 0) {
         alert('Sua caixa de texto está vazia.');
       } else {
-        itemList.push('<li><input class="check" onclick="updateList()" type="checkbox"><span>' + newItem + '</span><button class="deleteButton" onclick="deleteItem()"><img class="deleteImg" src="delete.svg" alt="deletar"></button></li>');
-        document.querySelector('#interactiveList').innerHTML = itemList;
+        document.querySelector('#interactiveList').innerHTML += '<li><input class="check" onclick="checkboxUpdate(); updateList()" type="checkbox"><span>' + newItem + '</span><button class="deleteButton"><img class="deleteImg" src="delete.svg" alt="deletar"></button></li>';
+        updateList();
+        checkboxLoad();
         document.querySelector('#addInput').value = '';
         document.querySelector('#addInput').focus();
-        updateList();
       }
       return;
     }
+
+    // Salva a ul no Local Storage.
     function updateList() {
-      localStorage.setItem('savedList', JSON.stringify(itemList));
+      localStorage.setItem('savedList', JSON.stringify(document.querySelector('#interactiveList').innerHTML));
+      window.location.reload(false);
     }
+
+    // Cria uma variável (savedList) e baixa o conteúudo do Local Storage dentro dela e joga ela dentro da ul.
     function loadList() {
-      loadedList = JSON.parse(localStorage.getItem('savedList'))
-      if (loadedList == null) {
+      let savedList = JSON.parse(localStorage.getItem('savedList'));
+      if (savedList == null) {
         return;
       } else {
-        itemList.push(loadedList)
-        document.querySelector('#interactiveList').innerHTML = itemList;
+        document.querySelector('#interactiveList').innerHTML = savedList;
         return;
       }
     }
-    // Colocar função para deletar um item da lista.
-    function deleteItem() { }
-    window.onload = loadList();
+
+    // Coloca todas as checkbox em uma array, então para cada item é criado um arquivo no Local Storage com o valor se a checkbox está marcada ou não (true ou false).
+    function checkboxUpdate() {
+      let checkboxStatus = document.querySelectorAll(`[type*="checkbox"]`);
+      checkboxStatus.forEach((box, index) => {
+        localStorage.setItem(box.className + [index], JSON.stringify(box.checked));
+      });
+    }
+    // Coloca todas as checkbox em uma array, então cada arquivo no Local Storage é transformado em um item do array e joga o valor dentro de cada checkbox.checked.
+    function checkboxLoad() {
+      let checkboxList = document.querySelectorAll(`[type*="checkbox"]`);
+      checkboxList.forEach((box, index) => {
+        let checked = JSON.parse(localStorage.getItem(box.className + [index]));
+        if (checked == null) {
+          return;
+        } else {
+          document.getElementsByClassName(box.className)[index].checked = checked;
+        }
+      });
+    }
+
+    // Carregar lista ao iniciar.
+    window.onload = loadList(), checkboxLoad();
+
+    // Organiza todos os botões delete em um array e adiciona um event listener dentro de cada um deles e ao serem clicados eles deletam seu elemento pai.
+    const delButtons = document.querySelectorAll('.deleteButton');
+    delButtons.forEach((button) => {
+      button.addEventListener('click', deleteItem);
+      function deleteItem(event) {
+        event.currentTarget.parentElement.remove();
+        updateList();
+        checkboxUpdate();
+      }
+    })
+
+
   </script>
 
 </body>
