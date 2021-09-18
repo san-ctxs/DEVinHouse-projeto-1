@@ -49,12 +49,12 @@
     // Cria uma variável (savedList) e baixa o conteúudo do Local Storage dentro dela e joga ela dentro da ul.
     function loadList() {
       let savedList = JSON.parse(localStorage.getItem('savedList'));
-      if (savedList == null) {
-        return;
-      } else {
-        document.querySelector('#interactiveList').innerHTML = savedList;
-        return;
-      }
+      // if (savedList == null) {
+      //   return;
+      // } else {
+      document.querySelector('#interactiveList').innerHTML = savedList;
+      return;
+      // }
     }
 
     // Coloca todas as checkbox em uma array, então para cada item é criado um arquivo no Local Storage com o valor se a checkbox está marcada ou não (true ou false).
@@ -69,11 +69,11 @@
       let checkboxList = document.querySelectorAll(`[type*="checkbox"]`);
       checkboxList.forEach((box, index) => {
         let checked = JSON.parse(localStorage.getItem(box.className + [index]));
-        if (checked == null) {
-          return;
-        } else {
-          document.getElementsByClassName(box.className)[index].checked = checked;
-        }
+        // if (checked == null) {
+        //   return;
+        // } else {
+        document.getElementsByClassName(box.className)[index].checked = checked;
+        // }
       });
     }
 
